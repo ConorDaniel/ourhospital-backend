@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# Build & dist output
+dist/
+build/
+coverage/
+
+# TypeScript
+*.tsbuildinfo
+
+# Swagger / OpenAPI output (optional)
+swagger-output.json
+
+# Test results
+test-results/
+
+# System files
+.DS_Store
+Thumbs.db
