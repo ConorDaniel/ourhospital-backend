@@ -1,0 +1,60 @@
+<form action="/dashboard/addhospital" method="POST">
+  <div class="field is-horizontal">
+    <div class="field-body">
+      <!-- Hospital Name -->
+      <div class="field">
+        <label class="label">Hospital Name</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Enter hospital name" name="name" required>
+        </div>
+      </div>
+
+      <!-- Type -->
+      <div class="field">
+        <label class="label">Type</label>
+        <div class="control">
+          <div class="select">
+            <select name="type" required>
+              <option value="" disabled selected>Select Type</option>
+              <option value="National">National</option>
+              <option value="Regional">Regional</option>
+              <option value="Local">Local</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="field">
+        <label class="label">Location</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Enter hospital location" name="location" required>
+        </div>
+      </div>
+
+      <!-- Latitude -->
+      <div class="field">
+        <label class="label">Latitude</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="e.g., 53.3498" name="latitude" required>
+        </div>
+      </div>
+
+      <!-- Longitude -->
+      <div class="field">
+        <label class="label">Longitude</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="e.g., -6.2603" name="longitude" required>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="field">
+    <div class="control">
+      <button class="button is-link">Add Hospital</button>
+    </div>
+  </div>
+</form>

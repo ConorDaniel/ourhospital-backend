@@ -1,0 +1,119 @@
+{
+  "users": [
+    {
+      "firstName": "Conor",
+      "lastName": "Conor",
+      "email": "conor@mymail.com",
+      "password": "This1",
+      "_id": "a398a0c2-e7eb-47d5-8a5f-1bb29ac80135"
+    },
+    {
+      "firstName": "Silly",
+      "lastName": "Sally",
+      "email": "silly@mymail.com",
+      "password": "This1",
+      "_id": "13d2e69f-7da6-4527-a67a-0f87e921b2c2"
+    }
+  ],
+  "hospitals": [
+    {
+      "name": "Mater",
+      "type": "National",
+      "_id": "6204e416-fa04-4bee-af37-cf023840c4b0",
+      "userid": "a398a0c2-e7eb-47d5-8a5f-1bb29ac80135"
+    },
+    {
+      "name": "asdffasd",
+      "type": "Regional",
+      "_id": "f2a114d9-19d9-478b-8aa6-0bfa139aa653",
+      "userid": null
+    },
+    {
+      "userid": "a398a0c2-e7eb-47d5-8a5f-1bb29ac80135",
+      "name": "Beaumont",
+      "type": "Local",
+      "_id": "6514a9f3-af01-4b55-b8ca-1a59cd617993"
+    },
+    {
+      "userid": "a398a0c2-e7eb-47d5-8a5f-1bb29ac80135",
+      "name": "asdasd",
+      "type": "National",
+      "_id": "70046609-a2d8-4174-ac4e-bc6fa037ce44"
+    },
+    {
+      "userid": "13d2e69f-7da6-4527-a67a-0f87e921b2c2",
+      "name": "Vincents",
+      "type": "National",
+      "_id": "aee4aa99-b6e2-4cf3-a688-93ee3b25c429"
+    }
+  ],
+  "departments": [
+    {
+      "_id": "7ae5aca5-0ad9-4473-aa0e-00734847aea5",
+      "hospitalId": "6204e416-fa04-4bee-af37-cf023840c4b0",
+      "title": "asdasdff"
+    },
+    {
+      "_id": "0881544b-a885-40a1-bac7-ab31345713db",
+      "hospitalId": "70046609-a2d8-4174-ac4e-bc6fa037ce44",
+      "title": "Stroke"
+    },
+    {
+      "hospitalId": "fbbd9b90-c4a0-47dd-886f-07eb18bf7161",
+      "title": "Older Persons",
+      "_id": "cc3bef03-6b54-4dba-9fd9-617f8bf51092"
+    },
+    {
+      "hospitalId": "fbbd9b90-c4a0-47dd-886f-07eb18bf7161",
+      "title": "Day Care",
+      "_id": "5c730a93-2d19-47dc-8207-14e1af6682f8"
+    },
+    {
+      "hospitalId": "aee4aa99-b6e2-4cf3-a688-93ee3b25c429",
+      "title": "Liver unit",
+      "_id": "191edbe8-5c40-46d0-a3eb-e8e40d3c2740"
+    },
+    {
+      "hospitalId": "aee4aa99-b6e2-4cf3-a688-93ee3b25c429",
+      "title": "Orthopaedics",
+      "_id": "76011ee9-3430-4ae4-9962-cb8fb1edf393"
+    }
+  ],
+  "staff": [
+    {
+      "role": "eqwqwe",
+      "name": "qweqw",
+      "vignette": "234234",
+      "departmentid": "cc3bef03-6b54-4dba-9fd9-617f8bf51092",
+      "_id": "44a76c9b-c08a-4e27-bd54-56e86b3fa133"
+    },
+    {
+      "role": "asdfa",
+      "name": "asdfasdf",
+      "vignette": "45",
+      "departmentid": "cc3bef03-6b54-4dba-9fd9-617f8bf51092",
+      "_id": "a946fd10-6563-4457-a47f-60ac800ba888"
+    },
+    {
+      "role": "Big boss",
+      "name": "barbara",
+      "vignette": "3",
+      "departmentid": "191edbe8-5c40-46d0-a3eb-e8e40d3c2740",
+      "_id": "feb7b4bf-afbd-4992-a3a1-be1182158c32"
+    },
+    {
+      "role": "asd",
+      "name": "aaasdf",
+      "vignette": "23",
+      "departmentid": "191edbe8-5c40-46d0-a3eb-e8e40d3c2740",
+      "_id": "dc1ff943-3c7a-4c99-9a5f-c7640eca6a87"
+    },
+    {
+      "role": "asdf",
+      "name": "asd",
+      "vignette": "asdasdf",
+      "departmentid": "7ae5aca5-0ad9-4473-aa0e-00734847aea5",
+      "_id": "7e773caf-c309-45da-8076-12518228620b"
+    }
+  ]
+}

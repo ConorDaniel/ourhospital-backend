@@ -1,0 +1,52 @@
+<div class="level mb-4">
+  <div class="level-left">
+    <h2 class="title is-4">{{department.title}} Staff</h2>
+  </div>
+  <div class="level-right">
+    <a class="button is-light" href="/hospital/{{hospital._id}}">
+      <span class="icon"><i class="fas fa-arrow-left"></i></span>
+      <span>Back to Department List</span>
+    </a>
+  </div>
+</div>
+
+<!-- Staff Table -->
+<table class="table is-fullwidth">
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Name</th>
+      <th class="is-half">Vignette</th> 
+      <th>Photo</th> 
+      <th></th> 
+    </tr>
+  </thead>
+  <tbody>
+    {{#each staff}}
+      <tr>
+        <td>{{role}}</td>
+        <td>{{name}}</td>
+        <td class="is-half">{{vignette}}</td> 
+        <td>
+          <figure class="image is-48x48">
+            <img
+              src="/images/staff-placeholder.jpg"
+              alt="Photo of {{name}}"
+              class="is-rounded"
+              loading="lazy"
+            >
+          </figure>
+        </td>
+        <td>
+          <a
+            href="/hospital/{{../hospital._id}}/department/{{../department._id}}/deletestaff/{{_id}}"
+            class="button is-danger is-small is-light"
+            title="Delete {{name}}"
+          >
+            <i class="fas fa-trash"></i> 
+          </a>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

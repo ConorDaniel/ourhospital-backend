@@ -1,0 +1,11 @@
+{{> menu}}
+
+<section class="section">
+  <h1 class="title">{{hospital.name}}</h1>
+  <h2 class="subtitle">Type: {{hospital.type}}</h2> 
+
+  <h2 class="subtitle">Departments</h2>
+{{> list-departments departments=departments hospital=hospital }}
+  <!-- Add Department Form -->
+  {{> add-department hospital_id=hospital._id}}
+</section>

@@ -1,0 +1,42 @@
+<!-- Hospital Title + Back Button -->
+<div class="level mb-4">
+  <div class="level-left">
+    <h2 class="title is-4">{{hospital.name}}</h2>
+  </div>
+  <div class="level-right">
+    <a class="button is-light" href="/dashboard">
+      <span class="icon"><i class="fas fa-arrow-left"></i></span>
+      <span>Back to Hospital List</span>
+    </a>
+  </div>
+</div>
+{{#each departments}}
+  <div class="box box-link-hover-shadow">
+    
+    <!-- Title & Location on same line -->
+    <div class="level">
+      <div class="level-left">
+        <h2 class="title is-4">{{title}}</h2>
+      </div>
+      <div class="level-right">
+        <p class="has-text-right"><strong>Location:</strong> {{deptLocation}}</p>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="buttons">
+      <a href="/hospital/{{../hospital._id}}/department/{{_id}}" class="button is-link is-light">
+        <span class="icon is-small">
+          <i class="fas fa-users"></i>
+        </span>
+        <span>Staff</span>
+      </a>
+      <a href="/hospital/{{../hospital._id}}/department/{{_id}}/delete" class="button is-danger is-light is-small">
+        <span class="icon is-small">
+          <i class="fas fa-trash"></i>
+        </span>
+        <span>Delete</span>
+      </a>
+    </div>
+  </div>
+{{/each}}

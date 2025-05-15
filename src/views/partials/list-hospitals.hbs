@@ -1,0 +1,46 @@
+{{#if hospitals.length}}
+  {{#each hospitals}}
+    <div class="box">
+      <article class="media">
+        
+        <!-- Hospital Info Left Side -->
+        <div class="media-content">
+          <div class="content is-flex is-justify-content-space-between is-align-items-center">
+            <div>
+              <h2 class="title is-4">{{name}}</h2>
+              <p><strong>Type:</strong> {{type}}</p>
+            </div>
+            <div class="has-text-right">
+              <p><strong>Location:</strong> {{location}}</p>
+              <p><strong>Coordinates:</strong> {{latitude}}, {{longitude}}</p>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="buttons mt-3">
+            <a href="/hospital/{{_id}}" class="button is-info">
+              <span class="icon is-small">
+                <i class="fas fa-folder-open"></i>
+              </span>
+              <span>Departments</span>
+            </a>
+            <a href="/dashboard/deletehospital/{{_id}}" class="button is-danger">
+              <i class="fas fa-trash"></i>
+              <span>Delete</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hospital Image Right Side -->
+        <div class="media-right">
+          <figure class="image is-96x96">
+            <img src="/images/Mater.jpg" alt="Hospital Image">
+          </figure>
+        </div>
+
+      </article>
+    </div>
+  {{/each}}
+{{else}}
+  <p>No hospitals found.</p>
+{{/if}}
