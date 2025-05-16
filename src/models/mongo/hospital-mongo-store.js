@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Hospital } from "./hospital.js"; // this is your Mongoose Hospital model
+import { Hospital } from "./hospital.js";
 
 export const hospitalMongoStore = {
   async getAllHospitals() {
@@ -21,5 +21,9 @@ export const hospitalMongoStore = {
 
   async deleteHospitalById(id) {
     return Hospital.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
+  },
+
+  async findById(id) {
+    return Hospital.findById(new mongoose.Types.ObjectId(id)).lean();
   }
 };

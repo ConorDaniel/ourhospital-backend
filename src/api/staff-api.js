@@ -6,7 +6,7 @@ export const staffApi = {
   create: {
     auth: "jwt",
     handler: async function (request, h) {
-      const department = await db.departmentStore.findById(request.params.id);
+      const department = await db.departmentStore.getDepartmentById(request.params.id);
       if (!department) {
         return Boom.notFound("Department not found");
       }
@@ -56,7 +56,7 @@ export const staffApi = {
   findByDepartment: {
     auth: false,
     handler: async function (request, h) {
-      const department = await db.departmentStore.findById(request.params.id);
+      const department = await db.departmentStore.getDepartmentById(request.params.id);
       if (!department) {
         return Boom.notFound("Department not found");
       }

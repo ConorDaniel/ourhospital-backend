@@ -98,7 +98,7 @@ export const accountsController = {
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
           algorithm: "HS256",
-          expiresIn: "1h",
+          expiresIn: "3h",
         });
 
         console.log("JWT generated:", token);

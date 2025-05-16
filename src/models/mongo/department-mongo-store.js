@@ -14,8 +14,11 @@ export const departmentMongoStore = {
     return Department.findById(new mongoose.Types.ObjectId(id)).lean();
   },
 
-  async addDepartment(department) {
-    const newDepartment = new Department(department);
+  async addDepartment(hospitalId, department) {
+    const newDepartment = new Department({
+      ...department,
+      hospitalId
+    });
     return newDepartment.save();
   },
 

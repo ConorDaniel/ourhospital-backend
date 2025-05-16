@@ -1,6 +1,8 @@
 import Joi from "joi";
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
+import { HospitalSpec } from "../models/joi-schemas.js";
+
 
 export const hospitalApi = {
   findAll: {
@@ -39,25 +41,28 @@ export const hospitalApi = {
   create: {
     auth: "jwt",
     handler: async function (request, h) {
-      const hospital = await db.hospitalStore.addHospital(request.payload);
+      const loggedInUser = request.auth.credentials;
+  
+      const newHospital = {
+        userId: loggedInUser._id,
+        name: request.payload.name,
+        type: request.payload.type || "",
+        location: request.payload.location,
+        latitude: request.payload.latitude,
+        longitude: request.payload.longitude
+      };
+  
+      const hospital = await db.hospitalStore.addHospital(newHospital);
       return h.response(hospital).code(201);
     },
     description: "Create a new hospital",
     notes: "Adds a hospital and returns the new object",
     tags: ["api"],
     validate: {
-      payload: Joi.object({
-        name: Joi.string().required(),
-        type: Joi.string()
-          .valid("National", "Regional", "Local", "Other")
-          .required(),
-        location: Joi.string().required(),
-        latitude: Joi.number().required(),
-        longitude: Joi.number().required(),
-        userId: Joi.string().required()
-      })
+      payload: HospitalSpec
     }
-  },
+  },  
+  
 
   update: {
     auth: "jwt",
@@ -95,7 +100,7 @@ export const hospitalApi = {
   deleteOne: {
     auth: "jwt",
     handler: async function (request, h) {
-      await db.hospitalStore.deleteHospital(request.params.id);
+      await db.hospitalStore.deleteHospitalById(request.params.id);
       return h.response().code(204);
     },
     description: "Delete a hospital by ID",
