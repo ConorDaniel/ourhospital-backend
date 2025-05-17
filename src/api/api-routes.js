@@ -2,8 +2,8 @@ import { userApi } from "./user-api.js";
 import { hospitalApi } from "./hospital-api.js";
 import { departmentApi } from "./department-api.js";
 import { staffApi } from "./staff-api.js";
+import { rankingApi } from "./ranking-api.js";  // ✅ Import ranking API
 import { accountsController } from "../controllers/accounts-controller.js";
-
 
 export const apiRoutes = [
   // User routes
@@ -28,7 +28,6 @@ export const apiRoutes = [
   { method: "PUT", path: "/api/departments/{id}", config: departmentApi.update },
   { method: "DELETE", path: "/api/departments/{id}", config: departmentApi.delete },
 
-
   // Staff routes
   { method: "POST", path: "/api/departments/{id}/staff", config: staffApi.create },
   { method: "GET", path: "/api/departments/{id}/staff", config: staffApi.findByDepartment },
@@ -37,6 +36,8 @@ export const apiRoutes = [
   { method: "DELETE", path: "/api/staff/{id}", config: staffApi.deleteOne },
 
   // Auth route (login to get token)
-    { method: "POST", path: "/api/authenticate", config: accountsController.apiLogin },
+  { method: "POST", path: "/api/authenticate", config: accountsController.apiLogin },
 
+  // ✅ Ranking routes (added at the end)
+  ...rankingApi
 ];

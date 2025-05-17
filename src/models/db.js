@@ -2,6 +2,8 @@ import { userMemStore } from "./mem/user-mem-store.js";
 import { departmentMemStore } from "./mem/department-mem-store.js";
 import { staffMemStore } from "./mem/staff-mem-store.js";
 import { hospitalMemStore } from "./mem/hospital-mem-store.js";
+import { rankingMongoStore } from "./mongo/ranking-mongo-store.js";
+
 
 import { userJsonStore } from "./json/user-json-store.js";
 import { departmentJsonStore } from "./json/department-json-store.js";
@@ -19,6 +21,7 @@ export const db = {
   departmentStore: null,
   staffStore: null,
   hospitalStore: null,
+  rankingStore: null,
 
   init(storeType) {
     switch (storeType) {
@@ -33,6 +36,7 @@ export const db = {
         this.departmentStore = departmentMongoStore;
         this.staffStore = staffMongoStore;
         this.hospitalStore = hospitalMongoStore;
+        this.rankingStore = rankingMongoStore; 
         connectMongo();
         break;
       default:

@@ -6,17 +6,17 @@ import { HospitalSpec } from "../models/joi-schemas.js";
 
 export const hospitalApi = {
   findAll: {
-    auth: "jwt",
+    auth: false,
     handler: async function (request, h) {
-      return db.hospitalStore.findAll();
+      return db.hospitalStore.getAllHospitals();  // ✅ Match your store
     },
     description: "Get all hospitals",
     notes: "Returns an array of all hospital records",
     tags: ["api"]
-  },
-
+  },  
+  
   findOne: {
-    auth: "jwt",
+    auth: false,
     handler: async function (request, h) {
       try {
         const hospital = await db.hospitalStore.findById(request.params.id);
