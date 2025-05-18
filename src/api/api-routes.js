@@ -11,6 +11,7 @@ export const apiRoutes = [
   { method: "POST", path: "/api/users", config: userApi.create },
   { method: "DELETE", path: "/api/users", config: userApi.deleteAll },
   { method: "GET", path: "/api/users/{id}", config: userApi.findOne },
+  { method: "GET", path: "/api/users/me", config: userApi.me },
 
   // Hospital routes
   { method: "GET", path: "/api/hospitals", config: hospitalApi.findAll },

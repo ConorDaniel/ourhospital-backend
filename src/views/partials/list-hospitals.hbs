@@ -9,6 +9,10 @@
             <div>
               <h2 class="title is-4">{{name}}</h2>
               <p><strong>Type:</strong> {{type}}</p>
+              {{#if region}}<p><strong>Region:</strong> {{region}}</p>{{/if}}
+              {{#if staffCount}}<p><strong>Staff:</strong> {{staffCount}}</p>{{/if}}
+              {{#if bedCount}}<p><strong>Beds:</strong> {{bedCount}}</p>{{/if}}
+              {{#if budget}}<p><strong>Budget (€M):</strong> {{budget}}</p>{{/if}}
             </div>
             <div class="has-text-right">
               <p><strong>Location:</strong> {{location}}</p>
@@ -31,10 +35,14 @@
           </div>
         </div>
 
-        <!-- Hospital Image Right Side -->
+        <!-- First Hospital Image (if available) -->
         <div class="media-right">
           <figure class="image is-96x96">
-            <img src="/images/Mater.jpg" alt="Hospital Image">
+            {{#if imageUrls.[0]}}
+              <img src="{{imageUrls.[0]}}" alt="Hospital Image">
+            {{else}}
+              <img src="/images/Mater.jpg" alt="Default Hospital Image">
+            {{/if}}
           </figure>
         </div>
 

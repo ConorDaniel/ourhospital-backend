@@ -70,7 +70,7 @@ export const accountsController = {
       const email = request.payload.email.trim();
       const password = request.payload.password.trim();
   
-      const user = await db.userStore.getUserByEmail(email);  // ✅ FIXED: define user
+      const user = await db.userStore.getUserByEmail(email);
   
       if (!user || user.password !== password) {
         return h
@@ -81,10 +81,11 @@ export const accountsController = {
           .code(401);
       }
   
-      request.cookieAuth.set({ id: user._id });
-      return h.redirect("/dashboard");
+      request.cookieAuth.set({ id: user._id });  // ✅ Set session
+      return h.redirect("/dashboard");           // ✅ Redirect
     },
   },
+  
     
   logout: {
     handler: function (request, h) {

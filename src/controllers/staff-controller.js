@@ -28,8 +28,10 @@ export const staffController = {
         role: request.payload.role,
         name: request.payload.name,
         vignette: request.payload.vignette,
+        pictureUrl: request.payload.pictureUrl,
         departmentId: department._id
       };
+      
 
       await db.staffStore.addStaff(newStaff);
       return h.redirect(`/hospital/${hospital._id}/department/${department._id}`);

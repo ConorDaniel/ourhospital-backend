@@ -126,5 +126,24 @@ export const userApi = {
     description: "Delete all users",
     notes: "Removes all user records from the database",
     tags: ["api"]
+  },
+  me: {
+    auth: "jwt",
+    handler: async function (request, h) {
+      try {
+        const userId = request.auth.credentials._id;
+        const user = await db.userStore.getUserById(userId);
+        if (!user) {
+          return Boom.notFound("User not found");
+        }
+        return user;
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
+    },
+    description: "Get current logged-in user",
+    notes: "Returns the user info from the JWT",
+    tags: ["api"]
   }
+  
 };

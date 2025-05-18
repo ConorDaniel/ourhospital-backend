@@ -17,7 +17,8 @@ export const UserCredentialsSpec = Joi.object({
 export const StaffSpec = Joi.object({
   role: Joi.string().required(),
   name: Joi.string().trim().required(),
-  vignette: Joi.string().required()
+  vignette: Joi.string().required(),
+  pictureUrl: Joi.string().uri().optional().allow("")
 });
 
 export const DepartmentSpec = Joi.object({
