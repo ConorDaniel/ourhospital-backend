@@ -9,15 +9,15 @@ export const hospitalController = {
       if (!hospital) {
         return h.response("Hospital not found").code(404);
       }
-      
+
       const departments = await db.departmentStore.getDepartmentsByHospitalId(request.params.id);
       const viewData = {
         title: "Hospital",
         hospital: hospital,
-        departments: departments,
+        departments: departments
       };
       return h.view("hospital-view", viewData);
-    },
+    }
   },
 
   addHospital: {
@@ -28,9 +28,7 @@ export const hospitalController = {
         return h.view("dashboard-view", {
           title: "Add Hospital Error",
           errors: error.details
-        })
-        .takeover()
-        .code(400);
+        }).takeover().code(400);
       }
     },
     handler: async function (request, h) {
@@ -42,23 +40,31 @@ export const hospitalController = {
       const newHospital = {
         userId: loggedInUser._id,
         name: request.payload.name,
-        type: request.payload.type || "",  
+        type: request.payload.type || "",
         location: request.payload.location,
         latitude: request.payload.latitude,
-        longitude: request.payload.longitude
+        longitude: request.payload.longitude,
+        staffCount: request.payload.staffCount,
+        budget: request.payload.budget,
+        bedCount: request.payload.bedCount,
+        region: request.payload.region,
+        imageUrls: Array.isArray(request.payload.imageUrls)
+          ? request.payload.imageUrls
+          : request.payload.imageUrls
+            ? [request.payload.imageUrls]
+            : []
       };
   
       await db.hospitalStore.addHospital(newHospital);
       return h.redirect("/dashboard");
     }
-  },  
+  },
 
   deleteHospital: {
     handler: async function (request, h) {
-      // Cleanup: Delete associated departments before deleting hospital
       await db.departmentStore.deleteDepartmentsByHospitalId(request.params.id);
       await db.hospitalStore.deleteHospitalById(request.params.id);
       return h.redirect("/dashboard");
-    },
+    }
   }
 };

@@ -7,19 +7,47 @@
     <div class="field is-horizontal">
       <div class="field-body">
         <div class="field">
-          <input class="input" type="text" placeholder="Enter first name" name="firstName">
+          <input class="input" type="text" placeholder="Enter first name" name="firstName" required>
         </div>
         <div class="field">
-          <input class="input" type="text" placeholder="Enter last name" name="lastName">
+          <input class="input" type="text" placeholder="Enter last name" name="lastName" required>
         </div>
       </div>
     </div>
+
     <div class="field">
-      <label class="label">Email</label> <input class="input" type="text" placeholder="Enter email" name="email">
+      <label class="label">Email</label>
+      <input class="input" type="email" placeholder="Enter email" name="email" required>
     </div>
+
     <div class="field">
-      <label class="label">Password</label> <input class="input" type="password" placeholder="Enter Password" name="password">
+      <label class="label">Password</label>
+      <input class="input" type="password" placeholder="Enter Password" name="password" required>
     </div>
+
+    <div class="field">
+      <label class="label">Region</label>
+      <div class="control">
+        <div class="select">
+          <select name="region" required>
+            <option value="" disabled selected>Select region</option>
+            <option value="0">National (Admin)</option>
+            <option value="1">Region 1</option>
+            <option value="2">Region 2</option>
+            <option value="3">Region 3</option>
+            <option value="4">Region 4</option>
+            <option value="5">Region 5</option>
+            <option value="6">Region 6</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Picture URL (optional)</label>
+      <input class="input" type="url" placeholder="Paste image URL (optional)" name="pictureUrl">
+    </div>
+
     <div class="field is-grouped">
       <button class="button is-link">Submit</button>
     </div>

@@ -10,7 +10,7 @@ export const dashboardController = {
         return h.redirect("/login");
       }
 
-      const hospitals = await db.hospitalStore.getUserHospitals(loggedInUser._id);
+      const hospitals = await db.hospitalStore.getAllHospitals();
       console.log("Hospitals for user", loggedInUser._id, "→", hospitals);
   
       const viewData = {

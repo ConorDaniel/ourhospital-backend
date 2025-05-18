@@ -15,6 +15,14 @@ export const hospitalMongoStore = {
     return newHospital.save();
   },
 
+  async updateHospital(id, updatedFields) {
+    return Hospital.findByIdAndUpdate(
+      new mongoose.Types.ObjectId(id),
+      updatedFields,
+      { new: true }
+    ).lean();
+  },
+
   async getUserHospitals(userId) {
     return Hospital.find({ userId }).lean();
   },

@@ -31,7 +31,14 @@ export const accountsController = {
       },
     },
     handler: async function (request, h) {
-      const user = request.payload;
+      const user = {
+        firstName: request.payload.firstName,
+        lastName: request.payload.lastName,
+        email: request.payload.email,
+        password: request.payload.password,
+        region: request.payload.region ?? 6, // Default to region 6 (local) if not provided
+        pictureUrl: request.payload.pictureUrl ?? "" // Optional
+      };
       await db.userStore.addUser(user);
       return h.redirect("/");
     },
@@ -51,22 +58,34 @@ export const accountsController = {
       options: { abortEarly: false },
       failAction: function (request, h, error) {
         return h
-          .view("login-view", { title: "Log in error", errors: error.details })
+          .view("login-view", {
+            title: "Log in error",
+            errors: error.details
+          })
           .takeover()
           .code(400);
       },
     },
     handler: async function (request, h) {
-      const { email, password } = request.payload;
-      const user = await db.userStore.getUserByEmail(email);
+      const email = request.payload.email.trim();
+      const password = request.payload.password.trim();
+  
+      const user = await db.userStore.getUserByEmail(email);  // ✅ FIXED: define user
+  
       if (!user || user.password !== password) {
-        return h.redirect("/");
+        return h
+          .view("login-view", {
+            title: "Login to Department",
+            errors: [{ message: "Invalid email or password" }]
+          })
+          .code(401);
       }
+  
       request.cookieAuth.set({ id: user._id });
       return h.redirect("/dashboard");
     },
   },
-
+    
   logout: {
     handler: function (request, h) {
       request.cookieAuth.clear();
@@ -74,7 +93,6 @@ export const accountsController = {
     },
   },
 
-  // ✅ API Login route for JWT auth
   apiLogin: {
     auth: false,
     validate: {

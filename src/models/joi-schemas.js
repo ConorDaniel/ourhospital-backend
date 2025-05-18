@@ -4,7 +4,9 @@ export const UserSpec = Joi.object({
   firstName: Joi.string().trim().required(),
   lastName: Joi.string().trim().required(),
   email: Joi.string().email().trim().required(),
-  password: Joi.string().min(5).required()
+  password: Joi.string().min(5).required(),
+  region: Joi.number().min(0).max(6).optional(),
+  pictureUrl: Joi.string().uri().allow("").optional()
 });
 
 export const UserCredentialsSpec = Joi.object({
@@ -28,5 +30,15 @@ export const HospitalSpec = Joi.object({
   type: Joi.string().valid("National", "Regional", "Local", "Other").required(),
   location: Joi.string().required(),
   latitude: Joi.number().required().min(-90).max(90),
-  longitude: Joi.number().required().min(-180).max(180)
+  longitude: Joi.number().required().min(-180).max(180),
+  staffCount: Joi.number().integer().min(0).optional(),
+  budget: Joi.number().precision(2).min(0).optional(),
+  bedCount: Joi.number().integer().min(0).optional(),
+  region: Joi.number().integer().min(0).max(6).optional(),
+  imageUrls: Joi.alternatives().try(
+    Joi.array().items(Joi.string().uri().allow("")),
+    Joi.string().uri().allow(""),
+    Joi.allow(null, "")
+  ).optional()
 });
+

@@ -23,7 +23,12 @@ const hospitalSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true
-  }
+  },
+  staffCount: { type: Number },
+  budget: { type: Number }, // in millions
+  bedCount: { type: Number },
+  region: { type: Number, min: 0, max: 6 },
+  imageUrls: [String] // Cloudinary image URLs
 });
 
 export const Hospital = mongoose.model("Hospital", hospitalSchema);

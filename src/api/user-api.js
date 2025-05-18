@@ -21,7 +21,9 @@ export const userApi = {
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         email: Joi.string().email().required(),
-        password: Joi.string().min(6).required()
+        password: Joi.string().min(6).required(),
+        region: Joi.number().integer().min(0).max(6).default(6),
+        pictureUrl: Joi.string().uri().optional().allow("")
       })
     }
   },
@@ -57,6 +59,58 @@ export const userApi = {
     description: "Get a user by ID",
     notes: "Returns a single user object",
     tags: ["api"]
+  },
+
+  update: {
+    auth: "jwt",
+    handler: async function (request, h) {
+      try {
+        const user = await db.userStore.getUserById(request.params.id);
+        if (!user) {
+          return Boom.notFound("User not found");
+        }
+        const updatedUser = await db.userStore.updateUser(request.params.id, request.payload);
+        return updatedUser;
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
+    },
+    description: "Update user details",
+    notes: "Updates fields of an existing user",
+    tags: ["api"],
+    validate: {
+      params: Joi.object({
+        id: Joi.string().required()
+      }),
+      payload: Joi.object({
+        firstName: Joi.string().optional(),
+        lastName: Joi.string().optional(),
+        email: Joi.string().email().optional(),
+        password: Joi.string().min(6).optional(),
+        region: Joi.number().integer().min(0).max(6).optional(),
+        pictureUrl: Joi.string().uri().optional().allow("")
+      })
+    }
+  },
+
+  deleteOne: {
+    auth: "jwt",
+    handler: async function (request, h) {
+      try {
+        await db.userStore.deleteUserById(request.params.id);
+        return h.response().code(204);
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
+    },
+    description: "Delete a user by ID",
+    notes: "Removes the specified user",
+    tags: ["api"],
+    validate: {
+      params: Joi.object({
+        id: Joi.string().required()
+      })
+    }
   },
 
   deleteAll: {

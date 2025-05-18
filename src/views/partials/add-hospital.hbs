@@ -51,8 +51,65 @@
     </div>
   </div>
 
-  <!-- Submit -->
+  <div class="field is-horizontal mt-4">
+    <div class="field-body">
+      <!-- Staff Count -->
+      <div class="field">
+        <label class="label">Staff Count</label>
+        <div class="control">
+          <input class="input" type="number" min="0" name="staffCount" placeholder="e.g., 250">
+        </div>
+      </div>
+
+      <!-- Bed Count -->
+      <div class="field">
+        <label class="label">Bed Count</label>
+        <div class="control">
+          <input class="input" type="number" min="0" name="bedCount" placeholder="e.g., 150">
+        </div>
+      </div>
+
+      <!-- Budget -->
+      <div class="field">
+        <label class="label">Budget (€M)</label>
+        <div class="control">
+          <input class="input" type="number" step="0.01" min="0" name="budget" placeholder="e.g., 45.75">
+        </div>
+      </div>
+
+      <!-- Region -->
+      <div class="field">
+        <label class="label">Region</label>
+        <div class="control">
+          <div class="select">
+            <select name="region">
+              <option value="" disabled selected>Select Region</option>
+              <option value="0">0 - National</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image URLs -->
   <div class="field">
+    <label class="label">Image URLs (up to 3)</label>
+    <div class="control">
+      <input class="input" type="text" name="imageUrls" placeholder="Enter image URL 1">
+      <input class="input mt-2" type="text" name="imageUrls" placeholder="Enter image URL 2">
+      <input class="input mt-2" type="text" name="imageUrls" placeholder="Enter image URL 3">
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="field mt-4">
     <div class="control">
       <button class="button is-link">Add Hospital</button>
     </div>

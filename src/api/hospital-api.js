@@ -3,18 +3,17 @@ import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
 import { HospitalSpec } from "../models/joi-schemas.js";
 
-
 export const hospitalApi = {
   findAll: {
     auth: false,
     handler: async function (request, h) {
-      return db.hospitalStore.getAllHospitals();  // ✅ Match your store
+      return db.hospitalStore.getAllHospitals();
     },
     description: "Get all hospitals",
     notes: "Returns an array of all hospital records",
     tags: ["api"]
-  },  
-  
+  },
+
   findOne: {
     auth: false,
     handler: async function (request, h) {
@@ -42,16 +41,21 @@ export const hospitalApi = {
     auth: "jwt",
     handler: async function (request, h) {
       const loggedInUser = request.auth.credentials;
-  
+
       const newHospital = {
         userId: loggedInUser._id,
         name: request.payload.name,
         type: request.payload.type || "",
         location: request.payload.location,
         latitude: request.payload.latitude,
-        longitude: request.payload.longitude
+        longitude: request.payload.longitude,
+        staffCount: request.payload.staffCount,
+        budget: request.payload.budget,
+        bedCount: request.payload.bedCount,
+        region: request.payload.region,
+        imageUrls: request.payload.imageUrls
       };
-  
+
       const hospital = await db.hospitalStore.addHospital(newHospital);
       return h.response(hospital).code(201);
     },
@@ -61,8 +65,7 @@ export const hospitalApi = {
     validate: {
       payload: HospitalSpec
     }
-  },  
-  
+  },
 
   update: {
     auth: "jwt",
@@ -71,6 +74,7 @@ export const hospitalApi = {
       if (!hospital) {
         return Boom.notFound("Hospital not found");
       }
+
       const updatedHospital = await db.hospitalStore.updateHospital(
         request.params.id,
         request.payload
@@ -78,7 +82,7 @@ export const hospitalApi = {
       return updatedHospital;
     },
     description: "Update a hospital",
-    notes: "Updates hospital fields: name, type, location, lat/lng, userId",
+    notes: "Updates hospital fields",
     tags: ["api"],
     validate: {
       params: Joi.object({
@@ -86,13 +90,16 @@ export const hospitalApi = {
       }),
       payload: Joi.object({
         name: Joi.string().optional(),
-        type: Joi.string()
-          .valid("National", "Regional", "Local", "Other")
-          .optional(),
+        type: Joi.string().valid("National", "Regional", "Local", "Other").optional(),
         location: Joi.string().optional(),
         latitude: Joi.number().optional(),
         longitude: Joi.number().optional(),
-        userId: Joi.string().optional()
+        userId: Joi.string().optional(),
+        staffCount: Joi.number().optional(),
+        budget: Joi.number().optional(),
+        bedCount: Joi.number().optional(),
+        region: Joi.number().min(0).max(6).optional(),
+        imageUrls: Joi.array().items(Joi.string()).optional()
       })
     }
   },
@@ -123,9 +130,9 @@ export const hospitalApi = {
     notes: "Deletes all hospital records",
     tags: ["api"]
   },
-  
+
   findByUser: {
-    auth: "jwt",  // 🔐 requires valid JWT token
+    auth: "jwt",
     handler: async function (request, h) {
       const userId = request.auth.credentials._id;
       const hospitals = await db.hospitalStore.getUserHospitals(userId);
@@ -135,9 +142,4 @@ export const hospitalApi = {
     notes: "Returns only the hospitals associated with the current user",
     tags: ["api"]
   }
-  
-
-
-
-
 };
