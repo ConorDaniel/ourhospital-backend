@@ -10,12 +10,15 @@ export const dashboardController = {
         return h.redirect("/login");
       }
 
-      const hospitals = await db.hospitalStore.getAllHospitals();
-      console.log("Hospitals for user", loggedInUser._id, "→", hospitals);
-  
+      // ✅ Get the full user including populated hospitals
+      const user = await db.userStore.getUserById(loggedInUser._id);
+      const hospitals = user?.hospitals ?? [];
+
+      console.log("Hospitals for user", user._id, "→", hospitals);
+
       const viewData = {
         title: "Hospital Dashboard",
-        user: loggedInUser,
+        user: user,
         hospitals: hospitals,
       };
       return h.view("dashboard-view", viewData);

@@ -5,7 +5,7 @@ export const UserSpec = Joi.object({
   lastName: Joi.string().trim().required(),
   email: Joi.string().email().trim().required(),
   password: Joi.string().min(5).required(),
-  region: Joi.number().min(0).max(6).optional(),
+  hospitals: Joi.array().items(Joi.string().length(24)).min(1).required(),
   pictureUrl: Joi.string().uri().allow("").optional()
 });
 

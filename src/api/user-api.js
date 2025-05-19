@@ -22,7 +22,7 @@ export const userApi = {
         lastName: Joi.string().required(),
         email: Joi.string().email().required(),
         password: Joi.string().min(6).required(),
-        region: Joi.number().integer().min(0).max(6).default(6),
+        hospitals: Joi.array().items(Joi.string().length(24)).min(1).required(),
         pictureUrl: Joi.string().uri().optional().allow("")
       })
     }
@@ -87,7 +87,7 @@ export const userApi = {
         lastName: Joi.string().optional(),
         email: Joi.string().email().optional(),
         password: Joi.string().min(6).optional(),
-        region: Joi.number().integer().min(0).max(6).optional(),
+        hospitals: Joi.array().items(Joi.string().length(24)).min(1).required(),
         pictureUrl: Joi.string().uri().optional().allow("")
       })
     }

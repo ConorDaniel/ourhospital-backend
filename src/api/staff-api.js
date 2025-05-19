@@ -10,35 +10,63 @@ export const upload = multer({ storage }); // export if needed for route config
 export const staffApi = {
   create: {
     auth: "jwt",
+    payload: {
+      output: "stream",
+      parse: true,
+      allow: "multipart/form-data",
+      multipart: true,
+      maxBytes: 10 * 1024 * 1024 // 10MB
+    },
     handler: async function (request, h) {
       const department = await db.departmentStore.getDepartmentById(request.params.id);
       if (!department) {
         return Boom.notFound("Department not found");
       }
-
+  
+      const { name, role, vignette } = request.payload;
+      const file = request.payload.file;
+  
+      let pictureUrl = "";
+  
+      if (file && file._data && file.hapi) {
+        // Upload to Cloudinary
+        pictureUrl = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            {
+              folder: "staff",
+              resource_type: "image",
+              allowed_formats: ["jpg", "jpeg", "png", "webp"]
+            },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result.secure_url);
+            }
+          );
+          file.pipe(stream);
+        });
+      }
+  
       const newStaff = {
-        ...request.payload,
+        name,
+        role,
+        vignette,
+        pictureUrl,
         departmentId: department._id
       };
-
+  
       const staff = await db.staffStore.addStaff(newStaff);
       return h.response(staff).code(201);
     },
-    description: "Add a staff member to a department",
+    description: "Add a staff member to a department (with optional picture)",
     tags: ["api"],
     validate: {
       params: Joi.object({
         id: Joi.string().required()
-      }),
-      payload: Joi.object({
-        name: Joi.string().required(),
-        role: Joi.string().required(),
-        vignette: Joi.string().required(),
-        pictureUrl: Joi.string().uri().optional().allow("")
       })
+      // Do NOT validate payload with Joi here — it's multipart
     }
   },
-
+  
   uploadImage: {
     auth: "jwt",
     payload: {

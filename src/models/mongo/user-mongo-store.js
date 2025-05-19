@@ -9,7 +9,9 @@ export const userMongoStore = {
 
   async getUserById(id) {
     if (Mongoose.isValidObjectId(id)) {
-      const user = await User.findOne({ _id: id }).lean();
+      const user = await User.findOne({ _id: id })
+        .populate("hospitals")   // ✅ This is the important bit
+        .lean();
       return user;
     }
     return null;

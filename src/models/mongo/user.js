@@ -1,5 +1,4 @@
 import Mongoose from "mongoose";
-
 const { Schema } = Mongoose;
 
 const userSchema = new Schema({
@@ -7,15 +6,13 @@ const userSchema = new Schema({
   lastName: String,
   email: String,
   password: String,
-  region: {
-    type: Number,
-    default: 0, // 0 = National / Admin
-    min: 0,
-    max: 6
-  },
+  hospitals: [{      
+    type: Schema.Types.ObjectId,
+    ref: "Hospital"
+  }],
   pictureUrl: {
     type: String,
-    default: "" // You can apply default logic on the frontend if empty
+    default: ""
   }
 });
 
