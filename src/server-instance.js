@@ -26,16 +26,18 @@ export async function createServer() {
     port: process.env.PORT || 3000,
     routes: {
       cors: {
-        origin: ["http://localhost:5173"]
+        origin: ["http://localhost:5173"],
+        credentials: true,
+        additionalHeaders: ["cache-control", "x-requested-with", "authorization", "content-type"],
+        additionalExposedHeaders: ["authorization"]
       },
       payload: {
         parse: true,
-        output: "stream",
-        multipart: true,
-        maxBytes: 10 * 1024 * 1024 // 10MB
+        multipart: { output: "stream" },  // ✅ this is safe for file uploads
+        maxBytes: 10 * 1024 * 1024
       }
     }
-  });  
+  });
 
   await server.register([
     Inert,

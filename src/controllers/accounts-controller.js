@@ -36,8 +36,8 @@ export const accountsController = {
         lastName: request.payload.lastName,
         email: request.payload.email,
         password: request.payload.password,
-        hospitals: request.payload.hospitals,        // ✅ required
-        role: "user",                                 // ✅ always default to user in public signup
+        hospitals: request.payload.hospitals,
+        role: "user",
         pictureUrl: request.payload.pictureUrl ?? ""
       };
       await db.userStore.addUser(user);
@@ -52,51 +52,6 @@ export const accountsController = {
     },
   },
 
-  login: {
-    auth: false,
-    payload: {
-      output: "data",
-      parse: true,
-      allow: "application/x-www-form-urlencoded"
-    },
-    validate: {
-      payload: UserCredentialsSpec,
-      options: {
-        abortEarly: false,
-        allowUnknown: false
-      },
-      failAction: function (request, h, error) {
-        return h
-          .view("login-view", {
-            title: "Log in error",
-            errors: error.details
-          })
-          .takeover()
-          .code(400);
-      },
-    },
-    handler: async function (request, h) {
-      const email = request.payload.email.trim();
-      const password = request.payload.password.trim();
-  
-      const user = await db.userStore.getUserByEmail(email);
-  
-      if (!user || user.password !== password) {
-        return h
-          .view("login-view", {
-            title: "Login to Department",
-            errors: [{ message: "Invalid email or password" }]
-          })
-          .code(401);
-      }
-  
-      request.cookieAuth.set({ id: user._id });
-      return h.redirect("/dashboard");
-    }
-  }
-  ,
-  
-    
   logout: {
     handler: function (request, h) {
       request.cookieAuth.clear();
@@ -109,6 +64,8 @@ export const accountsController = {
     validate: {
       payload: UserCredentialsSpec,
       failAction: function (request, h, error) {
+        console.error("🛑 Validation failed:", error.details);
+        console.error("📨 Payload received:", request.payload);
         return h.response({ error: "Invalid login" }).code(400).takeover();
       },
     },
@@ -116,21 +73,30 @@ export const accountsController = {
       try {
         const { email, password } = request.payload;
         console.log("Login attempt:", email);
-
+  
         const user = await db.userStore.getUserByEmail(email);
-        console.log("User found:", !!user);
-
-        if (!user || user.password !== password) {
-          console.log("Login failed: invalid credentials");
+        console.log("User lookup result:", user);
+  
+        if (!user) {
+          console.log("No user found for email:", email);
           return h.response({ error: "Invalid email or password" }).code(401);
         }
-
+  
+        console.log("Submitted password:", password);
+        console.log("Stored password:", user.password);
+        console.log("Password match:", user.password === password);
+  
+        if (user.password !== password) {
+          console.log("Password does not match.");
+          return h.response({ error: "Invalid email or password" }).code(401);
+        }
+  
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
           algorithm: "HS256",
           expiresIn: "3h",
         });
-
-        console.log("JWT generated:", token);
+  
+        console.log("✅ JWT generated:", token);
         return h.response({ token }).code(200);
       } catch (err) {
         console.error("Login error:", err);

@@ -26,6 +26,11 @@ export const userApi = {
         pictureUrl: Joi.string().uri().optional().allow(""),
         role: Joi.string().valid("user", "admin").optional()
       })
+    },
+    payload: {
+      parse: true,
+      output: "data",
+      multipart: false
     }
   },
 
