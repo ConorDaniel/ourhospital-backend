@@ -23,7 +23,8 @@ export const userApi = {
         email: Joi.string().email().required(),
         password: Joi.string().min(6).required(),
         hospitals: Joi.array().items(Joi.string().length(24)).min(1).required(),
-        pictureUrl: Joi.string().uri().optional().allow("")
+        pictureUrl: Joi.string().uri().optional().allow(""),
+        role: Joi.string().valid("user", "admin").optional()
       })
     }
   },
@@ -88,7 +89,8 @@ export const userApi = {
         email: Joi.string().email().optional(),
         password: Joi.string().min(6).optional(),
         hospitals: Joi.array().items(Joi.string().length(24)).min(1).required(),
-        pictureUrl: Joi.string().uri().optional().allow("")
+        pictureUrl: Joi.string().uri().optional().allow(""),
+        role: Joi.string().valid("user", "admin").optional()
       })
     }
   },

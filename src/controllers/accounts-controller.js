@@ -36,8 +36,9 @@ export const accountsController = {
         lastName: request.payload.lastName,
         email: request.payload.email,
         password: request.payload.password,
-        region: request.payload.region ?? 6, // Default to region 6 (local) if not provided
-        pictureUrl: request.payload.pictureUrl ?? "" // Optional
+        hospitals: request.payload.hospitals,        // ✅ required
+        role: "user",                                 // ✅ always default to user in public signup
+        pictureUrl: request.payload.pictureUrl ?? ""
       };
       await db.userStore.addUser(user);
       return h.redirect("/");
@@ -53,9 +54,17 @@ export const accountsController = {
 
   login: {
     auth: false,
+    payload: {
+      output: "data",
+      parse: true,
+      allow: "application/x-www-form-urlencoded"
+    },
     validate: {
       payload: UserCredentialsSpec,
-      options: { abortEarly: false },
+      options: {
+        abortEarly: false,
+        allowUnknown: false
+      },
       failAction: function (request, h, error) {
         return h
           .view("login-view", {
@@ -81,10 +90,11 @@ export const accountsController = {
           .code(401);
       }
   
-      request.cookieAuth.set({ id: user._id });  // ✅ Set session
-      return h.redirect("/dashboard");           // ✅ Redirect
-    },
-  },
+      request.cookieAuth.set({ id: user._id });
+      return h.redirect("/dashboard");
+    }
+  }
+  ,
   
     
   logout: {

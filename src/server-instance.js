@@ -27,9 +27,15 @@ export async function createServer() {
     routes: {
       cors: {
         origin: ["http://localhost:5173"]
+      },
+      payload: {
+        parse: true,
+        output: "stream",
+        multipart: true,
+        maxBytes: 10 * 1024 * 1024 // 10MB
       }
     }
-  });
+  });  
 
   await server.register([
     Inert,

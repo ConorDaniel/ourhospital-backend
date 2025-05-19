@@ -13,6 +13,11 @@ const userSchema = new Schema({
   pictureUrl: {
     type: String,
     default: ""
+  },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user"
   }
 });
 

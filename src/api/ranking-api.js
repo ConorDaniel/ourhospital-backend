@@ -6,6 +6,11 @@ export const rankingApi = [
     path: "/api/hospitals/{id}/ratings",
     config: {
       auth: false,
+      payload: {
+        parse: true,
+        output: "data",   // important: parse as normal data, not stream
+        allow: "application/json"
+      },
       handler: rankingController.add,
       description: "Submit a hospital rating",
       notes: "Accepts scores (1–5) for care, cleanliness, friendliness, and food. No authentication required.",
@@ -24,3 +29,4 @@ export const rankingApi = [
     }
   }
 ];
+

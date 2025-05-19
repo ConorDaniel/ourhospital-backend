@@ -2,6 +2,8 @@ import Joi from "joi";
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
 import { HospitalSpec } from "../models/joi-schemas.js";
+import { cloudinary } from "../../utils/cloudinary.js";
+
 
 export const hospitalApi = {
   findAll: {
@@ -39,34 +41,63 @@ export const hospitalApi = {
 
   create: {
     auth: "jwt",
+    payload: {
+      output: "stream",
+      parse: true,
+      multipart: true,
+      maxBytes: 10 * 1024 * 1024
+    },
     handler: async function (request, h) {
       const loggedInUser = request.auth.credentials;
-
+      if (!loggedInUser || !loggedInUser._id) {
+        return Boom.unauthorized("User not authenticated");
+      }
+  
+      const imageUrls = [];
+  
+      const uploadToCloudinary = (file) =>
+        new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "hospitals" },
+            (err, result) => {
+              if (err) reject(err);
+              else resolve(result.secure_url);
+            }
+          );
+          file.pipe(stream);
+        });
+  
+      const fileFields = ["image1", "image2", "image3"];
+      for (const key of fileFields) {
+        const file = request.payload[key];
+        if (file && typeof file.pipe === "function") {
+          const url = await uploadToCloudinary(file);
+          imageUrls.push(url);
+        }
+      }
+  
       const newHospital = {
         userId: loggedInUser._id,
         name: request.payload.name,
-        type: request.payload.type || "",
+        type: request.payload.type,
         location: request.payload.location,
-        latitude: request.payload.latitude,
-        longitude: request.payload.longitude,
-        staffCount: request.payload.staffCount,
-        budget: request.payload.budget,
-        bedCount: request.payload.bedCount,
-        region: request.payload.region,
-        imageUrls: request.payload.imageUrls
+        latitude: parseFloat(request.payload.latitude),
+        longitude: parseFloat(request.payload.longitude),
+        staffCount: parseInt(request.payload.staffCount),
+        budget: parseFloat(request.payload.budget),
+        bedCount: parseInt(request.payload.bedCount),
+        region: parseInt(request.payload.region),
+        imageUrls
       };
-
+  
       const hospital = await db.hospitalStore.addHospital(newHospital);
       return h.response(hospital).code(201);
     },
-    description: "Create a new hospital",
-    notes: "Adds a hospital and returns the new object",
-    tags: ["api"],
-    validate: {
-      payload: HospitalSpec
-    }
+    description: "Create a new hospital with images",
+    notes: "Accepts multipart form data and uploads images to Cloudinary",
+    tags: ["api"]
   },
-
+    
   update: {
     auth: "jwt",
     handler: async function (request, h) {
